@@ -1,6 +1,7 @@
 package database
 
 import (
+	"github.com/briangtn/codepic/internal/domain"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -11,7 +12,7 @@ func InitDB(dbFile string) *gorm.DB {
 		panic("failed to connect database")
 	}
 
-	err = db.AutoMigrate()
+	err = db.AutoMigrate(&domain.CodePic{})
 	if err != nil {
 		panic("failed to migrate database")
 	}
