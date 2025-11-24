@@ -20,12 +20,11 @@ func main() {
 
 	db := database.InitDB(dbFile)
 
-	_ = db
 	r := gin.New()
 
 	r.SetTrustedProxies(nil)
 
-	routes.RouterSetup(r)
+	routes.RouterSetup(r, db)
 
 	if err := r.Run(host); err != nil {
 		panic(err)
