@@ -15,11 +15,39 @@ func NewCodePicsRepository(db *gorm.DB) *CodePicsRepository {
 	}
 }
 
-func (r *CodePicsRepository) Save(codePic *domain.CodePic) (domain.CodePic, error) {
+func (r *CodePicsRepository) Save(codePic *domain.CodePic) (*domain.CodePic, error) {
 	result := r.DB.Create(codePic)
 	if result.Error != nil {
-		return domain.CodePic{}, result.Error
+		return nil, result.Error
 	}
 
-	return *codePic, nil
+	return codePic, nil
+}
+
+func (r *CodePicsRepository) FindByID(id string) (*domain.CodePic, error) {
+	var codePic domain.CodePic
+	result := r.DB.First(&codePic, "id = ?", id)
+
+	if result.Error == gorm.ErrRecordNotFound {
+		return nil, nil
+	}
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &codePic, nil
+}
+
+func (r *CodePicsRepository) Delete(codePic *domain.CodePic) error {
+	result := r.DB.Delete(codePic)
+	return result.Error
+}
+
+func (r *CodePicsRepository) Update(codePic *domain.CodePic) (*domain.CodePic, error) {
+	result := r.DB.Save(codePic)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return codePic, nil
 }

@@ -7,4 +7,6 @@ type Payload struct {
 	MaxViews int    `json:"max_views" binding:"gte=0"`
 }
 
-const ()
+const (
+	CODEPIC_NOT_FOUND_ERROR_CODE = "CODEPIC_NOT_FOUND"
+)

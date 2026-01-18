@@ -40,3 +40,28 @@ func (h *Handler) CreateCodePic(ctx *gin.Context) {
 		Data: codepic,
 	})
 }
+
+func (h *Handler) GetCodePicByID(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	codepic, err := h.codePicsService.GetCodePicByID(id)
+	if err != nil {
+		ctx.JSON(500, responses.ErrorResponse{
+			Code:    responses.INTERNAL_SERVER_ERROR_CODE,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	if codepic == nil {
+		ctx.JSON(404, responses.ErrorResponse{
+			Code:    CODEPIC_NOT_FOUND_ERROR_CODE,
+			Message: "Codepic with id " + id + " not found",
+		})
+		return
+	}
+
+	ctx.JSON(200, responses.SuccessResponse{
+		Data: codepic,
+	})
+}

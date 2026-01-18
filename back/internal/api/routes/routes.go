@@ -19,6 +19,7 @@ func RouterSetup(r *gin.Engine, db *gorm.DB) {
 	codepicsGroup := r.Group("/codepics")
 	{
 		codepicsGroup.POST("/", handlers.CodePicsHandler.CreateCodePic)
+		codepicsGroup.GET("/:id", handlers.CodePicsHandler.GetCodePicByID)
 	}
 
 	r.GET("/health", func(c *gin.Context) {
